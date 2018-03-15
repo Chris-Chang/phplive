@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="__STATIC__/images/logo.png">
+    <title>{block name="title"}登录{/block} - __TITLE__ - 后台管理</title>
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/amazeui.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/hover.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/admin.css">
+    {block name="other_head"}{/block}
+</head>
+<body data-type="login">
+<div class="am-g myapp-login">
+    <div class="myapp-login-logo-block  tpl-login-max">
+        <div class="myapp-login-logo-text">
+            <a href="/"><img src="__STATIC__/images/logo_white.png" alt=""></a>
+            <div class="myapp-login-logo-text">
+                Log In
+            </div>
+        </div>
+        <div class="am-u-sm-10 login-am-center">
+            <form class="am-form" action="{:url('/login/work')}" method="post">
+                <fieldset>
+                    <div class="am-form-group">
+                        <input type="text" class="" id="doc-ipt-email-1" placeholder="用户名..." name="name">
+                    </div>
+                    <div class="am-form-group">
+                        <input type="password" class="" id="doc-ipt-pwd-1" placeholder="密码..." name="password">
+                    </div>
+                    <p><button type="submit" class="am-btn am-btn-default">登录</button></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    var progress = $.AMUI.progress;
+    progress.set(0.2);
+    progress.set(0.4);
+    progress.set(0.6);
+    progress.set(0.8);
+    progress.done(true);
+</script>
+</html>

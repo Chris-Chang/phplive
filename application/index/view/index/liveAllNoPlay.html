@@ -1,0 +1,54 @@
+{extend name="base_front_item"}
+{block name="title"}全部{/block}
+{block name="content"}
+<div class="room-middle-box" style="padding-top: 40px;">
+    <div class=" am-u-md-12 am-u-lg-12　">
+        <div class="am-u-lg-4 am-u-md-4 am-u-sm-6 ">
+            <h1>全部课程   <span class="am-badge am-round am-text-lg">{$allNoPlayRoomInfo|count}</span></h1>
+        </div>
+        <div class="am-u-md-8 am-u-md-8 am-u-sm-6">
+            <a href="{:url('/live/all')}" class=" am-btn am-btn-default  ">直播中</a>
+            <a href="{:url('/live/all/noplay')}"  class=" am-btn am-btn-warning ">未直播</a>
+        </div>
+    </div>
+    <div class="am-u-md-12 am-u-sm-12">
+        {volist name="allNoPlayRoomInfo" id="apr"}
+        <div class="am-u-md-3 am-u-sm-12 no-padding-left no-padding-right hvr-underline-from-left">
+            <a href="{:url('/',['live'=>$apr.guid])}">
+                <div class="course-bg-box " onmousemove="showMask(this);" onmouseleave="hideMask(this)">
+                    <div class="course-bg-img" >
+                        <div>
+                            <img src="__STATIC__/images/room/{$apr.bgimgurl}" alt="{$apr.name}" class="bg-img">
+                        </div>
+                        <div class="mask">
+                            <img src="__STATIC__/images/play_small.png" alt="点击播放" height="50px" width="50px" >
+                        </div>
+                    </div>
+                    <div class="course-bg-info">
+                        <span>{$apr.name}</span>
+                    </div>
+                    <div class="course-bg-user">
+                                    <span>
+                                        <span class="am-icon-user"> {$apr.nickname}</span>
+                                    </span>
+                        <span class="am-fr">
+                                        <span class="am-icon-eye"> {$apr.people}</span>
+                                    </span>
+                    </div>
+
+                </div>
+            </a>
+        </div>
+        {/volist}
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.course-bg-img').children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.course-bg-img').children('.mask').fadeOut();
+    }
+</script>
+{/block}
+{/extend}

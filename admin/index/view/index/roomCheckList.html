@@ -1,0 +1,95 @@
+{extend name="base_front"}
+{block name="title"}首页{/block}
+{block name="content"}
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a >教师认真申请管理</a></li>
+    </ol>
+    <div class="tpl-content-scope">
+        <div class="note note-info">
+            <p> 身份证信息无误后,电话联系教师进行最终确认.</p>
+        </div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-green bold">
+                <span class="am-icon-user-secret"></span> 教师认证申请列表
+            </div>
+        </div>
+        <div class="tpl-block">
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                        <table class="am-table am-table-striped am-table-hover table-main  ">
+                            <thead>
+                            <tr>
+                                <th class="table-title">称呼</th>
+                                <th class="table-type">性别</th>
+                                <th class="table-author ">手机号</th>
+                                <th class="table-date ">身份证照片</th>
+                                <th class="table-set">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {volist name="zhuboCheckInfo" id="item"}
+                            <tr class="">
+                                <td>{$item.nickname}</td>
+                                <td>
+                                    {switch name="item.sex"}
+                                        {case value="1"}男{/case}
+                                        {case value="2"}女{/case}
+                                        {default /}未设置
+                                    {/switch}
+                                </td>
+                                <td class="">{$item.phone}</td>
+                                <td class=" ">
+                                    <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
+                                        <img src="__STATIC__/images/teacher/{$item.image}" alt=""  width="50px;">
+                                    </figure>
+                                </td>
+                                <td>
+                                   {if condition="$item.status eq 0"}
+                                    <form action="{:url('/room/check/success')}" method="post">
+                                        <input type="hidden" name="user" value="{$item.guid}">
+                                        <input type="hidden" name="nickname" value="{$item.nickname}">
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 通过</button>
+                                    </form>
+                                    <form action="{:url('/room/check/fail')}"  method="post">
+                                        <input type="hidden" name="user" value="{$item.guid}">
+                                        <input type="hidden" name="nickname" value="{$item.nickname}">
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-warning"><span class="am-icon-copy"></span> 拒绝</button>
+                                    </form>
+                                    {elseif condition="$item.status eq 2"}
+                                        <form action="{:url('/room/check/success')}" method="post">
+                                            <input type="hidden" name="user" value="{$item.guid}">
+                                            <input type="hidden" name="nickname" value="{$item.nickname}">
+                                            <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 通过</button>
+                                        </form>
+                                         <span class="am-text-danger">已经驳回</span>
+                                    {else/}
+                                        <span class="am-text-danger">已经通过</span>
+                                    {/if}
+                                </td>
+                            </tr>
+                            {/volist}
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }changeMenuStatus('userMenuUl');
+</script>
+{/block}
+{/extend}

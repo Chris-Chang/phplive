@@ -1,0 +1,113 @@
+{extend name="base_front"}
+{block name="title"}用户信息{/block}
+{block name="content"}
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a href="{:url('/user/list')}">用户列表</a></li>
+        <li><a >用户详细信息</a></li>
+    </ol>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-green bold">
+                <span class="am-icon-user"></span> {$userItemInfo.nickname}  <span class="am-text-sm"><font color="#ccc">详细信息</font></span>
+            </div>
+        </div>
+        <div class="am-u-md-12">
+            <div class="am-u-md-6 am-u-sm-12 ">
+                <div class="am-panel  " >
+                    <div class="am-panel-hd">
+                        <span>用户详细信息</span>
+                        {if condition="$userItemInfo.status eq 1"}
+                        <span class="am-fr"> <font color="#ff4500">
+                            <form action="{:url('/user/disable')}" method="post">
+                                <input type="hidden" name="user" value="{$userItemInfo.guid}" >
+                                <input type="hidden" name="status" value="{$userItemInfo.status}" >
+                                <button type="submit" class="am-btn am-btn-danger am-btn-xs">封禁</button>
+                            </form>
+                        </font></span>
+                        {else/}
+                        <span class="am-fr am-text-sm"> <font class="am-text-danger">
+                             <form action="{:url('/user/disable')}" method="post">
+                                <input type="hidden" name="user" value="{$userItemInfo.guid}" >
+                                <input type="hidden" name="status" value="{$userItemInfo.status}" >
+                                <button type="submit" class="am-btn am-btn-secondary am-btn-xs">解除封禁</button>
+                            </form>
+                            </font></span>
+                        {/if}
+                    </div>
+                    <ul class="am-list am-list-static">
+                        <li>GUID <span class="am-text-warning am-fr">{$userItemInfo.guid}</span></li>
+                        <li>昵称 <span class="am-fr">{$userItemInfo.nickname}</span></li>
+                        <li>性别 <span class="am-fr">{$userItemInfo.sex}</span></li>
+                        <li>手机 <span class="am-fr">{$userItemInfo.phone}</span></li>
+                    </ul>
+                </div>
+            </div>
+            {if condition="$userzhuboFlag eq 1"}
+            <div class="am-u-md-6 am-u-sm-12  ">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        <span>直播间信息 <span class="am-text-xs">点击查看课堂更多信息</span></span>
+                    </div>
+                    <ul class="am-list am-list-static">
+                        <li class=" am-text-center"> <span ><img src="__STATIC__/images/room/{$userRoomInfo.bgimgurl}" height="50px" alt=""></span></li>
+                        <li>课堂ID <span class=" am-fr"><a href="{:url('/room',['info'=>$userRoomInfo.guid])}">{$userRoomInfo.guid}</a></span></li>
+                        <li>名称 <span class=" am-fr">{$userRoomInfo.name}</span></li>
+                        <li>加入时间 <span class=" am-fr">{$userRoomInfo.create_time}</span></li>
+                        <li>上次直播时间<span class=" am-fr">{$userRoomInfo.update_time}</span></li>
+                    </ul>
+                </div>
+            </div>
+            {else/}
+            <div class="am-u-md-6 am-u-sm-12">
+                <div class=" am-text-center">
+                    <p class="am-text-danger" style="padding-top:100px;">
+                        <i class="am-icon-warning"></i> 不是教师
+                    </p>
+                </div>
+            </div>
+            {/if}
+        </div>
+        <div class="am-u-md-12">
+            <div class="am-u-md-6 am-u-sm-12  ">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        <span>收藏列表 <span class="am-text-xs">点击查看课堂更多信息</span></span>
+                    </div>
+                    <ul class="am-list am-list-static">
+                        {volist name="userCollectionInfo" id="item"}
+                        <li>课堂ID <span class=" am-fr"><a href="{:url('/room',['info'=>$item.room])}">{$item.room}</a></span></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+            <div class="am-u-md-6 am-u-sm-12  ">
+                <div class="am-panel am-panel-default">
+                    <div class="am-panel-hd">
+                        <span>观看历史 <span class="am-text-xs">点击查看课堂更多信息</span></span>
+                    </div>
+                    <ul class="am-list am-list-static">
+                        {volist name="userCollectionInfo" id="item"}
+                        <li>课堂ID <span class=" am-fr"><a href="{:url('/room',['info'=>$item.room])}">{$item.room}</a></span></li>
+                        {/volist}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }changeMenuStatus('userMenuUl');
+</script>
+{/block}
+{/extend}

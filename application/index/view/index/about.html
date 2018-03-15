@@ -1,0 +1,36 @@
+{extend name="base_front"}
+{block name="title"}关于{/block}
+{block name="content"}
+<img src="__STATIC__/images/banner.jpg" alt="" width="100%" class="am-img-responsive">
+<div class="am-container  ">
+    <div class="am-u-md-12" style="min-height: 600px;padding-top:50px;">
+        <img src="__STATIC__/images/logo.png" alt="logo" class="am-center">
+        <div style="padding-top:50px;" class="am-text-center">
+            <span class="am-block am-text-lg">当前版本 :  <strong class="am-text-warning">1.0.1</strong></span>
+            <span class="am-bock am-text-sm" ><font color="#708090">更新日期 :  2017-05-09</font></span>
+        </div>
+        <hr>
+        <div class="" style="width:50%;margin:0 auto;">
+            <p  class="am-text-lg">更新历史：</p>
+            <hr>
+            <p class="am-text-center"><span>2017-xx-xx  -----------------------  更新xxxxxx</span></p>
+            <hr>
+            <p class="am-text-center"><span>2017-xx-xx  -----------------------  更新xxxxxx</span></p>
+            <hr>
+            <p class="am-text-center"><span>2017-xx-xx  -----------------------  更新xxxxxx</span></p>
+            <hr>
+            <p class="am-text-center"><span>2017-xx-xx  -----------------------  更新xxxxxx</span></p>
+            <hr>
+        </div>
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+</script>
+{/block}
+{/extend}

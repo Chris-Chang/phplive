@@ -1,0 +1,266 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="__STATIC__/images/logo.png">
+    <title>{block name="title"}{/block} - __TITLE__ - 后台管理</title>
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/amazeui.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/hover.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/admin.css">
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="__STATIC__/amazeui/js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <!--[if lte IE 8 ]>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="__STATIC__/amazeui/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <script src="__STATIC__/amazeui/js/amazeui.min.js"></script>
+    <script>
+        function changeMenuStatus(id){
+            var obj=$('#'+id);
+            console.log(obj.css('display'));
+            if(obj.css('display')=='block'){
+                return false;
+            }
+            $(".tpl-left-nav-sub-menu").css('display','none');
+            obj.css('display','block');
+        }
+    </script>
+    <style>
+        .tpl-content-wrapper{
+            min-height:600px;
+        }
+        .admin-header{
+            z-index: 999;
+        }
+    </style>
+    {block name="other_head"}{/block}
+</head>
+<body data-type="index">
+<div class="am-u-sm-12 error-msg-alert am-text-center" style="display: none;z-index:9999;padding:0 0 0 0;width:100%;margin:0;opacity: .8">
+    <div class="am-alert  top-info-alert-box am-alert-secondary" data-am-alert style="opacity: .9999">
+        <button type="button" class="am-close">&times;</button>
+        <p class="top-info-alert-message"> </p>
+    </div>
+</div>
+{if condition="$Think.session.err_msg neq '' "}
+{if condition="$Think.session.err_code eq 0 "}
+<script>
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    var topInfoAlertBox=$(".top-info-alert-box");
+    topInfoAlertBox.removeClass('am-alert-danger');
+    topInfoAlertBox.addClass('am-alert-success');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{if condition="$Think.session.err_code eq 1 "}
+<script>
+    var topInfoAlertBox=$(".top-info-alert-box");
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    topInfoAlertBox.removeClass('am-alert-success');
+    topInfoAlertBox.addClass('am-alert-danger');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{/if}
+<header class="am-topbar am-topbar-inverse admin-header">
+    <div class="am-topbar-brand">
+        <a href="javascript:;" class="tpl-logo">
+            <img src="__STATIC__/images/logo.png" alt="" >
+        </a>
+    </div>
+    <div class="am-icon-list tpl-header-nav-hover-ico am-fl am-margin-right">
+    </div>
+    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}">
+        <span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+    <div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+        <ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list tpl-header-list">
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span class="am-icon-bell-o"></span> 认证申请 <span class="am-badge tpl-badge-success am-round"> {$userZhuboCheckInfo} </span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li class="tpl-dropdown-content-external">
+                        <h3>当前未处理<span class="tpl-color-success"> {$userZhuboCheckInfo} </span> 条教师认证申请</h3>
+                    </li>
+                </ul>
+            </li>
+            <li class="am-hide-sm-only"><a href="javascript:;" id="admin-fullscreen" class="tpl-header-list-link"><span class="am-icon-arrows-alt"></span> <span class="admin-fullText">开启全屏</span></a></li>
+
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span class="tpl-header-list-user-ico"> <img src="__STATIC__/images/headimgurl/headimgurl.jpg"></span>
+                </a>
+                <ul class="am-dropdown-content">
+                    <li><a href="{:url('/admin/info')}"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="{:url('/login/logout')}"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</header>
+<div class="tpl-page-container tpl-page-header-fixed">
+
+
+    <div class="tpl-left-nav tpl-left-nav-hover">
+        <div class="tpl-left-nav-title">
+           直播课堂后台管理
+        </div>
+        <div class="tpl-left-nav-list">
+            <ul class="tpl-left-nav-menu">
+                <li class="tpl-left-nav-item">
+                    <a href="{:url('/index')}" class="nav-link " id="indexLink">
+                        <i class="am-icon-home"></i>
+                        <span>首页</span>
+                    </a>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table"></i>
+                        <span>课堂管理</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right"></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" style="display: block;" id="roomMenuUl">
+                        <li>
+                            <a href="{:url('/room/list')}" class="" id="roomListLink">
+                                <i class="am-icon-angle-right"></i>
+                                <span>课堂列表</span>
+                                <i class="am-icon-list tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+                            <a href="{:url('/cate/list')}">
+                                <i class="am-icon-angle-right"></i>
+                                <span>课堂分类</span>
+                                <i class="am-icon-star tpl-left-nav-content-ico am-fr am-margin-right"></i>
+                            </a>
+
+
+                                <a href="{:url('/room/tipoff/list')}">
+                                    <i class="am-icon-angle-right"></i>
+                                    <span>违规举报</span>
+                                    <i class="tpl-left-nav-content tpl-badge-primary">
+                                        {$userTipoffInfo}
+                                    </i>
+                                </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-table"></i>
+                        <span>用户管理</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right "></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" id="userMenuUl">
+                        <li>
+                            <a href="{:url('/user/list')}">
+                                <i class="am-icon-angle-right"></i>
+                                <span>用户列表</span>
+                                <i class="am-icon-users  tpl-left-nav-more-ico am-fr am-text-xs am-text-primary">
+                                </i>
+                            </a>
+                            <a href="{:url('/room/check/list')}">
+                                <i class="am-icon-angle-right"></i>
+                                <span>认证申请</span>
+                                <i class="tpl-left-nav-content tpl-badge-success">
+                                    {$userZhuboCheckInfo}
+                                </i>
+                            </a>
+                            <a href="{:url('/user/disable')}">
+                                <i class="am-icon-angle-right"></i>
+                                <span>封禁列表</span>
+                                <i class="am-icon-user-secret  tpl-left-nav-more-ico am-fr am-text-xs am-text-danger">
+                                </i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a href="javascript:;" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-wpforms"></i>
+                        <span>系统管理</span>
+                        <i class="am-icon-angle-right tpl-left-nav-more-ico am-fr am-margin-right "></i>
+                    </a>
+                    <ul class="tpl-left-nav-sub-menu" id="systemMenuUl">
+                        <li>
+
+
+                            <a href="{:url('/suggest/list')}">
+                                <i class="am-icon-angle-right"></i>
+                                <span>系统反馈</span>
+                                <i class="am-icon-fire  tpl-left-nav-more-ico am-fr am-text-xs am-text-danger">
+                                </i>
+                            </a>
+                        <a href="{:url('/admin/info')}">
+                            <i class="am-icon-angle-right"></i>
+                            <span>管理员</span>
+                            <i class="am-icon-user  tpl-left-nav-more-ico am-fr am-text-xs am-text-danger">
+                            </i>
+                        </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="tpl-left-nav-item">
+                    <a href="{:url('/login/logout')}" class="nav-link tpl-left-nav-link-list">
+                        <i class="am-icon-key"></i>
+                        <span>退出</span>
+
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    {block name="content"}{/block}
+</div>
+
+
+<footer class="am-footer am-footer-default"
+       >
+    <div class="am-footer-switch">
+    <span class="am-footer-ysp" data-rel="mobile">
+        <a  href="javascript:;">
+          直播课堂
+        </a>
+    </span>
+        <span class="am-footer-divider"> | </span>
+        <a  href="javascript:;">
+            <span class="am-text-warning">
+                Live Class
+            </span>
+        </a>
+    </div>
+    <div class="am-footer-miscs ">
+        <p>Powered by 钱敏玥</p>
+        <p>Copyright©2017.</p>
+        <p>XICP备XXXXX号</p>
+    </div>
+</footer>
+
+</body>
+<script>
+    var progress = $.AMUI.progress;
+    progress.set(0.2);
+    progress.set(0.4);
+    progress.set(0.6);
+    progress.set(0.8);
+    progress.done(true);
+
+</script>
+<script src="__STATIC__/amazeui/js/app.js"></script>
+</html>

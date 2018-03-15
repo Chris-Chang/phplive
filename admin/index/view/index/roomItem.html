@@ -1,0 +1,137 @@
+{extend name="base_front"}
+{block name="title"}首页{/block}
+{block name="content"}
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a href="{:url('/room/list')}">课堂直播间列表</a></li>
+        <li><a >课堂详情</a></li>
+    </ol>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-green bold">
+                <span class="am-icon-television"></span> {$roomInfo.name} <span class="am-text-sm"><font color="#ccc">详细信息</font></span>
+            </div>
+        </div>
+        <div class="am-u-sm-12" style="margin-bottom:20px;">
+            <div class="am-u-sm-4">
+                <span>封面图片:</span>
+                <hr>
+                <img src="__STATIC__/images/room/{$roomInfo.bgimgurl}" alt="" height="100px">
+            </div>
+            <div class="am-u-sm-4">
+                {if condition="$roomInfo.status eq 1"}
+                    <span>直播实时截图:</span>
+                    <hr>
+                     <img src="__STATIC__/images/live/{$roomInfo.guid}.png" alt="" height="100px">
+                {else/}
+                    <span>上次直播最后截图:</span>
+                    <hr>
+                    <img src="__STATIC__/images/live/{$roomInfo.guid}.png" alt="" height="100px">
+                {/if}
+            </div>
+        </div>
+        <div class="am-u-md-6 am-u-sm-12 ">
+            <div class="am-panel am-panel-warning " style="box-shadow: 0 3px 3px #ccc;">
+                <div class="am-panel-hd">
+                    <span>房间详情</span>
+                    <span><a href="{:url('/cate',['info'=>$typeInfo.id])}">【<strong>{$typeInfo.name}</strong>】</a></span>
+                    {if condition="$roomInfo.status eq 1"}
+                      <span class="am-fr"> <font color="#ff4500">直播中</font></span>
+                    {else/}
+                      <span class="am-fr am-text-sm"> <font color="#333">当前未直播</font></span>
+                    {/if}
+                </div>
+                <ul class="am-list am-list-static">
+                    <li>课堂号 <span class="am-text-warning am-fr">{$roomInfo.guid}</span></li>
+                    <li>课堂名 <span class="am-fr">{$roomInfo.name}</span></li>
+                    <li>公告 <span class="am-fr">{$roomInfo.notice}</span></li>
+                    <li>描述 <span class="am-fr">{$roomInfo.description}</span></li>
+                    <li>观看人数 <span class="am-badge am-badge-warning am-fr ">{$roomInfo.people}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="am-u-md-6 am-u-sm-12  ">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span>教师信息 <span class="am-text-xs">点击称呼查看用户信息</span></span>
+                </div>
+                <ul class="am-list am-list-static">
+                    <li>称呼 <span class="am-text-warning am-fr"><a href="{:url('/user',['info'=>$zhuboInfo.guid])}">{$zhuboInfo.nickname}</a></span></li>
+                    <li>性别 <span class="am-fr"> {switch name="$zhuboInfo.sex"}
+                                        {case value="1"}男{/case}
+                                        {case value="2"}女{/case}
+                                        {default /}未设置
+                                    {/switch}</span></li>
+                    <li>手机号 <span class="am-fr">{$zhuboInfo.phone}</span></li>
+                    <li>课堂建立时间 <span class="am-fr am-text-warning">{$roomInfo.create_time}</span></li>
+                    <li>课堂最近修改时间 <span class="am-fr am-text-warning">{$roomInfo.update_time}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="am-u-md-6 am-u-sm-12  ">
+            <div class="am-panel am-panel-default">
+                <div class="am-panel-hd">
+                    <span>收藏用户列表 <span class="am-text-xs">点击称呼查看用户信息</span></span>
+                </div>
+                <ul class="am-list am-list-static">
+                    {volist name="roomCollectionInfo" id="item"}
+                    <li>称呼 <span class=" am-fr"><a href="{:url('/user',['info'=>$item.guid])}">{$item.nickname}</a></span></li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+        <div class="am-u-md-6 am-u-sm-12  ">
+            <div class="am-panel am-panel-danger">
+                <div class="am-panel-hd">
+                    <span>操作</span>
+                </div>
+                <div class="am-panel-bd ">
+                   {if condition="$roomInfo.disable eq 0"}
+                        <form action="{:url('/room/disable')}" method="post">
+                            <input type="hidden" name="room" value="{$roomInfo.guid}">
+                            <button type="submit" class="am-btn am-btn-danger am-btn-xs">封禁课堂</button>
+                        </form>
+                    {else/}
+                        <form action="{:url('/room/disable/open')}" method="post">
+                            <input type="hidden" name="room" value="{$roomInfo.guid}">
+                            <button type="submit" class="am-btn am-btn-primary am-btn-xs">解封课堂</button>
+                        </form>
+                    {/if}
+                    <hr>
+                    <div class="">
+
+                        <form action="{:url('/room/cate/modify')}" method="post">
+                            <select name="type" id="" class="am-selected">
+                                {volist name='cateList' id='item'}
+                                <option value="{$item.id}" id="cate-{$item.id}"> {$item.name}</option>
+                                {/volist}
+                            </select>
+                            <input type="hidden" name="room" value="{$roomInfo.guid}">
+                            <button type="submit" class="am-btn am-btn-secondary am-btn-xs">修改分类</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+   $(document).ready(function(){
+       var cateId='cate-'+"{$typeInfo.id}";
+       $("#"+cateId).attr('selected',true);
+   });
+</script>
+{/block}
+{/extend}

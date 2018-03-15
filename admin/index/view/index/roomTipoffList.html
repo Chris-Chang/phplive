@@ -1,0 +1,67 @@
+{extend name="base_front"}
+{block name="title"}违规举报{/block}
+{block name="content"}
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a >教师认真申请管理</a></li>
+    </ol>
+    <div class="tpl-content-scope">
+        <div class="note note-info">
+            <p> 点击昵称或课堂名可以查看详细信息.</p>
+        </div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-red bold">
+                <span class="am-icon-save"></span> 课堂违规举报列表
+            </div>
+        </div>
+        <div class="tpl-block">
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <table class="am-table am-table-striped am-table-hover table-main  ">
+                        <thead>
+                        <tr>
+                            <th class="table-title">用户</th>
+                            <th class="table-author ">举报了</th>
+                            <th class="table-date ">课堂</th>
+                            <th class="table-set">时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="tipoffList" id="item"}
+                        <tr class="">
+                            <td>{$item.nickname}</td>
+                            <td>
+                                举报了
+                            </td>
+                            <td>
+                                <a href="{:url('/room',['info'=>$item.guid])}">{$item.guid} - {$item.name}</a>
+                            </td>
+                            <td>
+                                {$item.tipoff_time}
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }changeMenuStatus('roomMenuUl');
+</script>
+{/block}
+{/extend}

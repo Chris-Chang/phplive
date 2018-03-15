@@ -1,0 +1,137 @@
+{extend name="base_front"}
+{block name="title"}分类下的房间{/block}
+{block name="content"}
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="editCateModel">
+    <div class="am-modal-dialog small" style="width:300px;">
+        <div class="am-modal-hd">
+            <span class="am-text-sm"><font color="#708090">编辑分类</font></span>
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <form action="{:url('/cate/modify')}" method="post">
+                <div class="form-group">
+                    <input type="hidden" class="am-form-field" name="id" value="" id="editCateModelHidden">
+                    <input type="text" class="am-form-field" name="name" value="" id="editCateModelInput">
+                </div>
+                <div class="form-group" style="padding-top: 10px;">
+                    <button type="submit" class="am-btn am-btn-warning am-btn-block">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-no-btn" tabindex="-1" id="addCateModel">
+    <div class="am-modal-dialog small" style="width:300px;">
+        <div class="am-modal-hd">
+            <span class="am-text-sm"><font color="#708090">添加分类</font></span>
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+        </div>
+        <div class="am-modal-bd">
+            <form action="{:url('/cate/add')}" method="post">
+                <div class="form-group">
+                    <input type="text" class="am-form-field" name="name" value="" id="addCateModelInput" required>
+                </div>
+                <div class="form-group" style="padding-top: 10px;">
+                    <button type="submit" class="am-btn am-btn-warning am-btn-block">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="am-modal am-modal-confirm" tabindex="-1" id="confirmModel" >
+    <div class="am-modal-dialog" style="width:250px;">
+        <div class="am-modal-hd"><span class="am-text-sm "><font color="#708090">删除分类</font></span></div>
+        <div class="am-modal-bd">
+            <span class="am-text-sm"> 删除 [ <span class=" am-text-danger" id="cateDleteName"></span> ]? 不可恢复!</span>
+        </div>
+        <form action="{:url('/cate/delete')}" method="post" id="deleteForm">
+            <input type="hidden" name="id" value="" id="deleteInput">
+        </form>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm onclick="submitDeleteForm();">确定</span>
+        </div>
+    </div>
+</div>
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a href="{:url('/cate/list')}" >分类管理</a></li>
+        <li><a >分类下的房间</a></li>
+    </ol>
+    <div class="tpl-content-scope">
+        <div class="note note-info">
+            <p> 点击房间ID可以查看房间的详细信息.</p>
+        </div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-red bold">
+                <span class="am-icon-th-list"></span> {$cateInfo.name} 下房间列表
+            </div>
+        </div>
+        <div class="tpl-block">
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <table class="am-table am-table-striped am-table-hover table-main  ">
+                        <thead>
+                        <tr>
+                            <th class="table-title">分类名称</th>
+                            <th class="table-title">课堂ID</th>
+                            <th class="table-title">修改时间</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="list" id="item"}
+                        <tr class="">
+                            <td><span >{$cateInfo.name}</span></td>
+                            <td>
+                                <a href="{:url('/room',['info'=>$item.room])}">{$item.room}</a>
+                            </td>
+                            <td><span >{$item.update_time}</span></td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+    changeMenuStatus('systemMenuUl');
+    // 编辑分类
+    function editCate(obj){
+        var cateId=$(obj).attr('cate');
+        var obj2='cate-'+cateId;
+        var name=$('#'+obj2).text();
+        $("#editCateModelHidden").val(cateId);
+        $('#editCateModelInput').val(name);
+        $('#editCateModel').modal();
+    }
+    // 删除分类
+    function deleteCate(obj){
+        var cateId=$(obj).attr('cate');
+        var obj2='cate-'+cateId;
+        var name=$('#'+obj2).text();
+        $('#cateDleteName').text(name);
+        $('#deleteInput').val(cateId);
+        $("#confirmModel").modal();
+    }
+    // 提交
+    function submitDeleteForm(){
+        $('#deleteForm').submit();
+    }
+</script>
+{/block}
+{/extend}

@@ -1,0 +1,138 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/png" href="__STATIC__/images/logo.png">
+    <title>{block name="title"}首页{/block} - __TITLE__</title>
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/amazeui.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/hover.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/app.css">
+    {block name="other_head"}{/block}
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="__STATIC__/amazeui/js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <!--[if lte IE 8 ]>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="__STATIC__/amazeui/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+
+</head>
+<body style="background-color: #F6F6F6">
+<div class="am-u-md-12 error-msg-alert" style="display: none;z-index:9999;padding:0 0 0 0;width:100%;margin:0;opacity: .8">
+    <div class="am-alert  top-info-alert-box am-alert-success" data-am-alert style="opacity: .999;">
+        <button type="button" class="am-close">&times;</button>
+        <p class="top-info-alert-message"> </p>
+    </div>
+</div>
+{if condition="$Think.session.err_msg neq '' "}
+{if condition="$Think.session.err_code eq 0 "}
+<script>
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    var topInfoAlertBox=$(".top-info-alert-box");
+    topInfoAlertBox.removeClass('am-alert-danger');
+    topInfoAlertBox.addClass('am-alert-success');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{if condition="$Think.session.err_code eq 1 "}
+<script>
+    var topInfoAlertBox=$(".top-info-alert-box");
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    topInfoAlertBox.removeClass('am-alert-success');
+    topInfoAlertBox.addClass('am-alert-danger');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{/if}
+<!--Common like alert-->
+<div class="am-modal am-modal-alert" tabindex="-1" id="alertBox">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd" id="alertTitle">操作提示</div>
+        <div class="am-modal-bd" id="alertContent">
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" id="alertButton">确定</span>
+        </div>
+    </div>
+</div>
+<!--Common like alert-->
+<!--left box-->
+<div class="am-u-md-2 am-u-lg-2 room-left-box no-padding-left no-padding-right">
+    <div class="am-u-md-12 am-u-lg-12 am-text-center">
+        <a href="{:url('/')}">
+            <img src="__STATIC__/images/logo.png" alt="__TITLE__" class="room-left-box-logo">
+        </a>
+    </div>
+    <form class="am-u-md-12 am-u-lg-12 left-nav-search-form" role="search" action="{:url('/live/search')}" method="post" id="searchForm">
+        <div class="  am-form-group am-form-icon am-form-feedback">
+            <input type="text" class=" am-form-field am-input-sm left-nav-search-input" placeholder="搜索..." name="keyword">
+            <span class="am-icon-search" onclick="submitSearch()"></span>
+        </div>
+    </form>
+    <div class="left-type-box">
+        <div class="am-u-md-12 am-u-lg-12 am-text-right">
+            <a href="{:url('/live/all')}"><font color="">查看全部</font></a>
+        </div>
+        <div class="am-u-md-12 am-u-lg-12" >
+            <span><a href="{:url('/cate/all')}"><h5><font color="#cccccc">所有分类</font></h5> </a></span>
+        </div>
+        <div class="am-u-md-12 am-u-lg-12 left-type-link-box" >
+            {volist name="roomTypeInfo" id="type"}
+                   <a class=" am-text-sm am-btn am-btn-block left-type-link hvr-bounce-to-right" href="{:url('/',['cate'=>$type.id])}">{$type.name}</a>
+            {/volist}
+        </div>
+    </div>
+    <div class="left-user-box ">
+        {if condition="$userLoginFlag eq 1"}
+          <div class="left-user-logo am-u-sm-12">
+              <img src="__STATIC__/images/headimgurl/{$userLoginInfo.headimgurl}" alt="{$userLoginInfo.nickname}" class="user-logo am-circle">
+              <span>{$userLoginInfo.nickname}</span>
+              <div class="am-fr">
+                  <a href="{:url('/user')}" class="am-text-warning"><span class="am-icon-cog "></span></a><br>
+                  <a href="{:url('/login/logout')}" class=""><span class="am-icon-power-off "></span></a>
+              </div>
+          </div>
+        <div class=" left-user-logo user-btn-box am-u-sm-6 am-text-center">
+            <a href="{:url('/user/mycollection')}" class="am-btn am-btn-warning am-btn-sm user-link ">我的收藏</a>
+        </div>
+        <div class="left-user-logo user-btn-box am-text-center am-u-sm-6">
+            <a href="{:url('/user/myhistory')}" class="am-btn am-btn-warning am-btn-sm user-link ">观看历史</a>
+        </div>
+        {else /}
+        <div class="am-u-sm-12 am-text-center no-login-box ">
+            <a href="{:url('/login')}" class="am-btn am-btn-warning am-round">登录</a>
+        </div>
+        {/if}
+    </div>
+</div>
+{block name="content"}{/block}
+
+<script src="__STATIC__/amazeui/js/amazeui.min.js"></script>
+<script>
+    var progress = $.AMUI.progress;
+    progress.set(0.2);
+    progress.set(0.4);
+    progress.set(0.6);
+    progress.set(0.8);
+    progress.done(true);
+    function submitSearch(){
+        $("#searchForm").submit();
+    }
+</script>
+</body>
+</html>

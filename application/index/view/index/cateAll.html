@@ -1,0 +1,23 @@
+{extend name="base_front_item"}
+{block name="title"}全部分类{/block}
+{block name="content"}
+<div class="room-middle-box" style="padding-top: 40px;">
+    <div class=" am-u-md-12 am-u-lg-12　">
+        <div class="am-u-md-4 am-u-md-4 am-u-sm-6 ">
+            <h1>全部课堂分类 </h1>
+        </div>
+    </div>
+    <div class="am-u-md-12 am-u-sm-12">
+        {volist name="cateList" id="item"}
+            <a href="{:url('/',['cate'=>$item.id])}" class="">
+                <div class="am-u-md-3  " style="padding:15px;" >
+                    <div class="hvr-outline-out " style="height:100%;width:100%;text-align: center;padding:50px;">
+                        <span class="am-text-warning hvr-underline-from-center" style="padding: 10px;">{$item.name}</span>
+                    </div>
+                </div>
+            </a>
+        {/volist}
+    </div>
+</div>
+{/block}
+{/extend}

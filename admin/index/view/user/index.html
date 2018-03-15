@@ -1,0 +1,78 @@
+{extend name="base_front"}
+{block name="title"}用户列表{/block}
+
+{block name="content"}
+<div class="tpl-content-wrapper">
+    <div class="tpl-content-page-title">
+        Live Class 后台管理
+    </div>
+    <ol class="am-breadcrumb">
+        <li><a href="{:url('/index')}" class="am-icon-home">首页</a></li>
+        <li><a >用户列表</a></li>
+    </ol>
+    <div class="tpl-content-scope">
+        <div class="note note-info">
+            <p> 点击头像或称呼可以查看详细信息.</p>
+            <p> 用户列表为目前可正常登录和使用的用户列表.</p>
+        </div>
+    </div>
+    <div class="tpl-portlet-components">
+        <div class="portlet-title">
+            <div class="caption font-red bold">
+                <span class="am-icon-users"></span> 所有用户
+            </div>
+        </div>
+        <div class="tpl-block">
+
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <table class="am-table am-table-striped am-table-hover table-main  ">
+                        <thead>
+                        <tr>
+                            <th class="table-title">头像</th>
+                            <th class="table-title">昵称</th>
+                            <th class="table-title">性别</th>
+                            <th class="table-title">手机号</th>
+                            <th class="table-title">加入时间</th>
+                            <th class="table-title">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {volist name="userList" id="item"}
+                        <tr class="">
+                            <td>
+                                <a href="{:url('/user',['info'=>$item.guid])}"><img src="__STATIC__/images/headimgurl/{$item.headimgurl}" alt="" height="50px"></a>
+                            </td>
+                            <td><a href="{:url('/user',['info'=>$item.guid])}">{$item.nickname}</a></td>
+                            <td>
+                                {$item.sex}
+                            </td>
+                            <td>
+                                {$item.phone}
+                            </td>
+                            <td>
+                                {$item.create_time}
+                            </td>
+                            <td>
+                                <a href="{:url('/user',['info'=>$item.guid])}" class="am-btn am-btn-secondary am-btn-xs">查看更多 >> </a>
+                            </td>
+                        </tr>
+                        {/volist}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+    changeMenuStatus('userMenuUl');
+</script>
+{/block}
+{/extend}

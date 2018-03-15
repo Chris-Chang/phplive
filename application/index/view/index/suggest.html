@@ -1,0 +1,52 @@
+{extend name="base_front"}
+{block name="title"}关于{/block}
+{block name="content"}
+<img src="__STATIC__/images/suggest.jpg" alt="" width="100%" class="am-img-responsive">
+<div class="am-container  ">
+    <div class="am-u-md-12" style="min-height: 600px;padding-top:50px;">
+        <div style="" class="am-text-center">
+            <span class="am-text-lg">反馈建议</span>
+        </div>
+        <hr>
+        <div class="" style="width:40%;margin:0 auto;">
+            <form action="{:url('/suggest')}" method="post" class="am-form">
+                <div class="am-form-group am-u-md-12">
+                    <label for="title" class="am-u-md-2 am-text-lg"><font color="#708090">标题:</font></label>
+                    <div class="am-u-md-10">
+                        <input type="text" name="title" class="am-form-field am-input-sm" id="title">
+                    </div>
+                </div>
+                <div class="am-form-group am-u-md-12">
+                    <label for="content" class="am-u-md-2 am-text-lg"><font color="#708090">内容:</font></label>
+                    <div class="am-u-md-10">
+                        <textarea name="content" id="content" cols="30" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="am-form-group am-u-md-12">
+                    <div class="am-u-md-12">
+                        {if condition="$userLoginFlag eq 1" }
+                             <button type="submit" class="am-btn am-btn-warning am-fr">提交</button>
+                        {else/}
+                             <a href="javascript:void(0);" class="am-btn am-btn-warning am-disabled am-fr">登陆后提交</a>
+                        {/if}
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="am-u-md-12 am-text-center">
+                <span class="am-text-sm"><font color="#708090">我们将尽快处理，感谢您的反馈!</font></span>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+</script>
+{/block}
+{/extend}

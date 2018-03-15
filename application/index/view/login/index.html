@@ -1,0 +1,75 @@
+{extend name="base_front_clear"}
+{block name="title"}登录{/block}
+{block name="content"}
+<div class="login-bg" style="background-image: url(__STATIC__/images/login_bg.png);">
+    <div class="login-header am-container">
+        <div class="am-u-sm-4">
+            <a href="/"><img src="__STATIC__/images/logo_white.png" alt="" height="100%"></a>
+        </div>
+    </div>
+    <div class="am-container ">
+        <div class="am-u-lg-3 am-hide-sm">
+            &nbsp;
+        </div>
+        <div class=" am-u-md-6 am-u-sm-12 login-container am-animation-slide-bottom" style="">
+            <div class="login-container-left am-u-md-8">
+                <div class=" header  ">
+                    <div class="am-u-sm-12">
+                        <h1 class=" am-animation-shake am-text-warning am-text-right">登录</h1>
+                    </div>
+                </div>
+                <div class=" bottom   ">
+                    <form class="am-form am-form-horizontal" method="post" action="/login/work.html">
+                        <div class="am-form-group">
+                            <div class=" am-u-sm-12">
+                                <input type="text" required name="phone" id="doc-ipt-3" placeholder="手机号...">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class=" am-u-sm-12">
+                                <input type="password" required name="password" id="doc-ipt-pwd-2" placeholder="密码...">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-6 ">
+                                <label class="am-checkbox am-warning  ">
+                                    <input type="checkbox" value="true" name="mempassword" data-am-ucheck>
+                                    <span class="am-text-default">记住密码</span>
+                                </label>
+                            </div>
+                            <div class="am-u-sm-6 am-text-right">
+                                <a href="" class="am-text-warning ">忘记密码?</a>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-12 hvr-bob">
+                                {:token()}
+                                <input type="submit" name="" value="登 录"
+                                       class="am-btn am-btn-warning  am-btn-lg am-btn-block ">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="login-container-right am-u-md-4">
+                <div class="am-u-sm-12">
+                    <span class="am-block">没有账号？</span>
+                    <span class="am-text-lg am-block">
+                        <a href="{:url('/regist')}" class="am-text-warning">立即注册 →</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="am-u-lg-3 am-hide-sm">
+            &nbsp;
+        </div>
+    </div>
+</div>
+<script>
+    function randomVerify() {
+        var src = '{:captcha_src()}?d=' + Math.random();
+        $(".verify-image").attr('src', src);
+    }
+</script>
+{/block}
+{/extend}

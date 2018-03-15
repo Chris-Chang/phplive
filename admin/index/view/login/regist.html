@@ -1,0 +1,185 @@
+{extend name="base_front_clear"}
+{block name="title"}新用户注册{/block}
+{block name="content"}
+<div class="login-bg" style="background-image: url(__STATIC__/images/login_bg.png);">
+    <div class="login-header am-container">
+        <div class="am-u-sm-4">
+            <a href="/"><img src="__STATIC__/images/logo_white.png" alt="" height="100%"></a>
+        </div>
+    </div>
+    <div class="am-container ">
+        <div class="am-u-lg-3 am-hide-sm">
+            &nbsp;
+        </div>
+        <div class=" am-u-md-6 am-u-sm-12 login-container am-animation-slide-bottom" style="">
+            <div class="login-container-left am-u-md-8">
+                <div class=" header  ">
+                    <div class="am-u-sm-12">
+                        <h1 class=" am-animation-shake am-text-warning am-text-right">注册</h1>
+                    </div>
+                </div>
+                <div class=" bottom ">
+                    <form class="am-form am-form-horizontal" method="post" action="/login/work.html">
+                        <div class="am-form-group " id="nameDiv">
+                            <div class="am-u-sm-12">
+                                <input type="text" required name="name" id="name" placeholder="姓名..."
+                                       class="am-form-field">
+                            </div>
+                        </div>
+                        <div class="am-form-group" id="phoneDiv">
+                            <div class=" am-u-sm-12">
+                                <input type="text" required name="phone" id="phone" placeholder="请输入手机号..."
+                                       class="am-form-field">
+                            </div>
+                        </div>
+                        <div class="am-form-group" id="passwordDiv">
+                            <div class=" am-u-sm-12">
+                                <input type="password" required name="password" id="password" placeholder="请输入密码..."
+                                       class="am-form-field">
+                            </div>
+                        </div>
+                        <div class="am-form-group" id="againpasswordDiv">
+                            <div class=" am-u-sm-12">
+                                <input type="password" required name="againpassword" id="againpassword"
+                                       placeholder="请再次输入密码..." class="am-form-field">
+                            </div>
+                        </div>
+                        <div class="am-form-group" id="phoneCodeDiv">
+                            <div class="am-u-sm-6">
+                                <input type="text" required name="phoneCode" id="phoneCode" placeholder="验证码..."
+                                       class="am-form-field">
+                            </div>
+                            <div class="am-u-sm-6 am-text-right">
+                                <button class="am-btn am-btn-warning" type="button" id="codeBtn"
+                                        onclick="getPhoneCode(this);">获取验证码
+                                </button>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-12 hvr-bob">
+                                {:token()}
+                                <button class="am-btn am-btn-warning am-btn-block" type="button" id="checkBtn"
+                                        onclick="registCheck(this);">注 册
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="login-container-right am-u-md-4">
+                <div class="am-u-sm-12">
+                    <span class="am-block">已有账号？</span>
+                    <span class="am-text-lg am-block">
+                        <a href="{:url('/login')}" class="am-text-warning">立即登录 →</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="am-u-lg-3 am-hide-sm">
+            &nbsp;
+        </div>
+    </div>
+</div>
+<script>
+    function getPhoneCode(obj) {
+        $("#nameDiv").removeClass('am-form-error am-animation-shake');
+        $("#phoneDiv").removeClass('am-form-error am-animation-shake');
+        $("#passwordDiv").removeClass('am-form-error am-animation-shake');
+        $("#phoneCodeDiv").removeClass('am-form-error am-animation-shake');
+
+        var name = $.trim($("#name").val()),
+            phone = $.trim($("#phone").val()),
+            password = $.trim($("#password").val()),
+            againpassword = $.trim($("#againpassword").val());
+        if (name.length == 0) {
+            $("#nameDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        if (phone.length != 11) {
+            $("#phoneDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        if (password.length < 6) {
+            $("#passwordDiv").addClass('am-form-error am-animation-shake');
+            alert('密码不低于6位');
+            return false;
+        }
+        if (againpassword.length < 0 || againpassword != password) {
+            $("#againpasswordDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        $(obj).attr('disabled', true);
+        // 说明没有设置session
+        var nowTime = 60;
+        var int = setInterval(function () {
+            nowTime = nowTime - 1;
+            $(obj).text("剩余" + nowTime + "S");
+            if (nowTime <= 0) {
+                $(obj).text("获取验证码");
+                $(obj).attr('disabled', false);
+                clearInterval(int);
+            }
+        }, 1000);
+        var url = "{:url('/regist/sendcode')}";
+        $.ajax({
+            'url': url,
+            'data': 'phone=' + phone,
+            'type': 'post',
+            'dataType': 'json',
+            success: function (data) {
+                alert(data.msg);
+            }
+        });
+        return false;
+    }
+    function registCheck(obj) {
+        $("#nameDiv").removeClass('am-form-error am-animation-shake');
+        $("#phoneDiv").removeClass('am-form-error am-animation-shake');
+        $("#passwordDiv").removeClass('am-form-error am-animation-shake');
+        $("#againpasswordDiv").removeClass('am-form-error am-animation-shake');
+        $("#phoneCodeDiv").removeClass('am-form-error am-animation-shake');
+        var name = $.trim($("#name").val()),
+            phone = $.trim($("#phone").val()),
+            password = $.trim($("#password").val()),
+            againpassword = $.trim($("#againpassword").val()),
+            phoneCode = $.trim($("#phoneCode").val());
+        if (name.length == 0) {
+            $("#nameDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        if (phone.length != 11) {
+            $("#phoneDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        if (password.length < 6) {
+            $("#passwordDiv").addClass('am-form-error am-animation-shake');
+            alert('密码不低于6位');
+            return false;
+        }
+        if (againpassword.length < 0 || againpassword != password) {
+            $("#againpasswordDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        if (phoneCode.length != 4) {
+            $("#phoneCodeDiv").addClass('am-form-error am-animation-shake');
+            return false;
+        }
+        var url = "{:url('/regist/work')}";
+        $.ajax({
+            'url': url,
+            'data': 'code=' + phoneCode + '&name=' + name + '&phone=' + phone + '&password=' + password + '&againpassword=' + againpassword,
+            'type': 'post',
+            'dataType': 'json',
+            success: function (data) {
+                alert(data.msg);
+                if (data.status == 'ok') {
+                    location.href="{:url('/')}";
+                } else {
+
+                }
+            }
+        });
+    }
+</script>
+{/block}
+{/extend}

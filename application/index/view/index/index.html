@@ -1,0 +1,95 @@
+{extend name="base_front"}
+{block name="title"}首页{/block}
+{block name="content"}
+<div data-am-widget="slider" class="am-slider am-slider-c3 index-slider" data-am-slider='{&quot;controlNav&quot;:false}'>
+    <ul class="am-slides">
+        <li>
+            <img src="http://wx.doc.kuakao.com/cycllepic/18113/20170328/9098635f-c834-4fb6-99fe-cd06ab723966.jpg">
+
+        </li>
+        <li>
+            <img src="http://wx.doc.kuakao.com/cycllepic/18113/20170328/da5265a9-3abd-4f25-b03c-f9996a220a36.jpg">
+
+        </li>
+    </ul>
+</div>
+<div class="am-container index-panel">
+    <div class="  am-u-md-8 am-u-sm-12 ">
+        <div class="index-panel-box">
+            <div class="am-u-sm-12 index-panel-box" >
+                <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+                <span class="am-titlebar-title ">
+                    <span class="am-text-warning">正在直播的课堂</span>
+                </span>
+                    <nav class="am-titlebar-nav">
+                        <a href="{:url('/live/all')}" class=" hvr-forward"><span class="am-text-warning">查看更多  &raquo;</span></a>
+                    </nav>
+                </div>
+            </div>
+            <div class="am-u-sm-12 index-panel-box"  style="min-height: 400px;" >
+                <div class=" index-panel-box-content">
+                    {volist name="zhiboRoomInfo" id="zb"}
+                    <div class="am-u-md-4 am-u-sm-12">
+                        <a href="{:url('/',['live'=>$zb.guid])}">
+                            <div class="course-bg-box  hvr-float-shadow" onmousemove="showMask(this);" onmouseleave="hideMask(this)">
+                                <div class="course-bg-img" >
+                                    <img src="__STATIC__/images/live/{$zb.guid}.png" alt="{$zb.name}" class="bg-img">
+                                </div>
+                                <div class="course-bg-info">
+                                    <span>{$zb.name}</span>
+                                </div>
+                                <div class="course-bg-user">
+                                <span>
+                                    <span class="am-icon-user"> {$zb.nickname}</span>
+                                </span>
+                                    <span class="am-fr">
+                                    <span class="am-icon-eye"> {$zb.people}</span>
+                                </span>
+                                </div>
+                                <div class="mask">
+                                    <img src="__STATIC__/images/play_small.png" alt="点击播放" width="50px"height="50px" >
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" am-u-md-4 am-u-sm-12 index-panel-box">
+        <div class="">
+            <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+                <span class="am-titlebar-title ">
+                    热门
+                </span>
+            </div>
+            <div class=" am-u-sm-12 index-panel-box-content" style="height: 400px;" >
+                {volist name="topCollectonInfo" id="top"}
+                     <div class="top-room-box ">
+                        <span class="top-room-link hvr-forward">
+                              <a href="{:url('/',['live'=>$top.guid])}" class="am-text-truncate">{$top.name}</a>
+                         </span>
+                        <span class="am-fr">
+                              {if condition="$top.status eq 0"}
+                                    <span class="am-badge ">{$top.number}</span>
+                              {else /}
+                                    <span class="am-badge am-badge-success">{$top.number}</span>
+                              {/if}
+                         </span>
+                    </div>
+                {/volist}
+            </div>
+        </div>
+    </div >
+</div>
+<script>
+    function showMask(obj){
+        $(obj).children('.mask').fadeIn();
+    }
+    function hideMask(obj){
+        $(obj).children('.mask').fadeOut();
+    }
+</script>
+{/block}
+{/extend}

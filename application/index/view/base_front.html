@@ -1,0 +1,149 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="icon" type="image/png" href="__STATIC__/images/logo.png">
+    <title>{block name="title"}首页{/block} - __TITLE__</title>
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/amazeui.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/hover.css">
+    <link rel="stylesheet" href="__STATIC__/amazeui/css/app.css">
+    {block name="other_head"}{/block}
+    <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="__STATIC__/amazeui/js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <!--[if lte IE 8 ]>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="__STATIC__/amazeui/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <script src="__STATIC__/amazeui/js/amazeui.min.js"></script>
+</head>
+<body style="background-color: #F6F6F6">
+<div class="am-u-sm-12 error-msg-alert am-text-center" style="display: none;z-index:9999;padding:0 0 0 0;width:100%;margin:0;opacity: .8">
+    <div class="am-alert  top-info-alert-box am-alert-success" data-am-alert style="opacity: .999;">
+        <button type="button" class="am-close">&times;</button>
+        <p class="top-info-alert-message"> </p>
+    </div>
+</div>
+{if condition="$Think.session.err_msg neq '' "}
+{if condition="$Think.session.err_code eq 0 "}
+<script>
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    var topInfoAlertBox=$(".top-info-alert-box");
+    topInfoAlertBox.removeClass('am-alert-danger');
+    topInfoAlertBox.addClass('am-alert-success');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{if condition="$Think.session.err_code eq 1 "}
+<script>
+    var topInfoAlertBox=$(".top-info-alert-box");
+    $(".top-info-alert-message").text("{$Think.session.err_msg}");
+    topInfoAlertBox.removeClass('am-alert-success');
+    topInfoAlertBox.addClass('am-alert-danger');
+    $(".error-msg-alert").fadeIn();
+    setTimeout(function(){
+        $(".error-msg-alert").fadeOut();
+    },3000);
+</script>
+{/if}
+{/if}
+<header class="am-topbar " style="padding-top: 10px;padding-bottom: 10px;">
+    <div class="am-container">
+        <h1 class="am-topbar-brand">
+            <h1 class="am-topbar-brand" >
+                <a href="#" class="am-text-ir" style="display: block;
+  margin-right: 10px;
+  height: 50px;
+  width: 125px;
+  background: url(__STATIC__/images/logo.png) no-repeat left center;background-size: contain;">Amaze UI</a>
+            </h1>
+        </h1>
+        <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only"
+                data-am-collapse="{target: '#doc-topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span
+                class="am-icon-bars"></span></button>
+
+        <div class="am-collapse am-topbar-collapse" id="doc-topbar-collapse">
+            <ul class="am-nav am-nav-pills am-topbar-nav">
+                <li class=""><a href="{:url('/')}">首页</a></li>
+                <li class=""><a href="{:url('/live/all')}">所有课堂</a></li>
+                <li class=""><a href="{:url('/cate/all')}">全部分类</a></li>
+                <li class=""><a href="{:url('/about')}">关于</a></li>
+                <li class=""><a href="{:url('/suggest')}">反馈</a></li>
+                <li class=""><a href="{:url('/live/10000')}">播放示例</a></li>
+            </ul>
+            <form class="am-topbar-form am-topbar-left am-form-inline am-form" role="search" action="{:url('/live/search')}" method="post" id="searchForm">
+                <div class="am-form-group am-form-icon am-form-feedback">
+                        <input type="text" class="am-form-field am-input-sm nav-search-input" placeholder="搜索..." name="keyword">
+                        <span class="am-icon-search" onclick="submitSearch()"></span>
+                </div>
+            </form>
+            <div class="am-topbar-right" >
+                <div class="am-dropdown " data-am-dropdown>
+                    {if condition="$userLoginFlag eq 1"}
+                    <a class="   am-icon-btn hvr-float-shadow" title="我的收藏" href="{:url('/user/mycollection')}"><span class="am-icon-bookmark-o am-text-warning"></span></a>
+                    <a class="   am-icon-btn hvr-float-shadow" title="观看历史" href="{:url('/user/myhistory')}"><span class="am-icon-list  am-text-warning"></span></a>
+                    <a href="javascript:void(0);" class="am-dropdown-toggle">
+                        <img src="__STATIC__/images/headimgurl/{$userLoginInfo.headimgurl}" alt="" class="am-circle hvr-float-shadow" height="50px" width="50px">
+                    </a>
+                    <ul class="am-dropdown-content" style="padding: 10px;">
+                        <li class="am-animation-slide-top"><a href="{:url('/user')}"><span class="am-icon-edit"></span> 我的资料</a></li>
+                        <li class="am-animation-slide-top"><a href="{:url('/login/logout')}"><span class="am-icon-power-off am-text-danger" ></span><span class="am-text-danger"> 退出登录</span></a></li>
+                    </ul>
+                    {else/}
+                    <a class="am-btn am-btn-default am-topbar-btn am-btn-sm am-btn-warning hvr-float" href="{:url('/login')}">登录</a>
+                    <a>.</a>
+                    <a class="am-btn am-btn-default am-topbar-btn am-btn-sm am-btn-secondary hvr-float" href="{:url('/regist')}">注册</a>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+{block name="content"}{/block}
+<footer class="am-footer am-footer-default am-container" style="margin-top:40px;background-color: #f6f6f6;padding-bottom: 5px;">
+    <div class="am-footer-switch " style="border-top:dotted 1px #cccccc;padding-top:20px;">
+    <span class="am-footer-ysp am-text-small" data-rel="mobile">
+        <a  href="javascript:;">
+          直播课堂
+        </a>
+    </span>
+        <span class="am-footer-divider am-text-small"> | </span>
+        <a  href="javascript:;">
+            <span class="am-text-warning">
+                Live Class
+            </span>
+        </a>
+    </div>
+    <div class="am-footer-miscs ">
+        <p>Powered by 钱敏玥</p>
+        <p>Copyright©2017.</p>
+        <p>XICP备XXXXX号</p>
+    </div>
+</footer>
+
+</body>
+<script>
+    var progress = $.AMUI.progress;
+    progress.set(0.2);
+    progress.set(0.4);
+    progress.set(0.6);
+    progress.set(0.8);
+    progress.done(true);
+    function submitSearch(){
+        $("#searchForm").submit();
+    }
+</script>
+</html>

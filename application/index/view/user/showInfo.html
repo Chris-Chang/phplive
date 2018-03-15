@@ -1,0 +1,270 @@
+{extend name="base_front_item"}
+{block name="title"}{$userLoginInfo.nickname}-用户信息{/block}
+{block name="other_head"}
+{/block}
+{block name="content"}
+<div class="room-middle-box" style="padding-top: 40px;">
+    <div class="am-u-md-12 user-info-content">
+        <div class=" am-u-md-12 　">
+            <div class="am-u-md-6 am-u-md-6 am-u-sm-12 ">
+                <h1>
+                    <span class="am-text-warning">{$userLoginInfo.nickname}</span>
+                    <span class="am-text-default">的个人资料</span>
+                    {if condition="$userZhuBoFlag eq 1"}
+                    <span class="am-badge am-badge-warning am-text-sm"  data-am-popover="{theme:'sm',content: ' 认证教师,能够进行直播... ', trigger: 'hover focus'}"title=""><span class="am-icon-star"></span> 认证</span>
+                    {else /}
+                    <span class="am-badge am-badge-default am-text-sm"  data-am-popover="{theme:'sm',content: ' 教师身份验证,将能够进行直播 ', trigger: 'hover focus'}"title=""><span class="am-icon-star"></span> 未认证</span>
+                    {/if}
+                </h1>
+            </div>
+        </div>
+        <div class="am-u-md-4 ">
+            <div class="am-u-md-12 logo-content" style="padding-top: 10px">
+                <img src="__STATIC__/images/headimgurl/{$userLoginInfo.headimgurl}" alt="{$userLoginInfo.nickname}头像" width="100px" height="100px;">
+            </div>
+            <div class="am-u-md-12" style="padding-top: 0">
+                <p>
+                    昵称 : {$userLoginInfo.nickname}
+                </p>
+                <p>
+                    性别 :
+                    {switch name="$userLoginInfo.sex"}
+                    {case value="1"}男{/case}
+                    {case value="2"}女{/case}
+                    {default /}隐私
+                    {/switch}
+                </p>
+            </div>
+        </div>
+        <div class="am-u-md-8 ">
+            <div data-am-widget="tabs" class="am-tabs am-tabs-default" style="">
+                <ul class="am-tabs-nav am-cf">
+                    <li class="am-active"><a href="[data-tab-panel-0]">编辑资料</a></li>
+                    <li class=""><a href="[data-tab-panel-1]">修改密码</a></li>
+                    <li class=""><a href="[data-tab-panel-2]">更改头像</a></li>
+                </ul>
+                <div class="am-tabs-bd">
+                    <div data-tab-panel-0 class="am-tab-panel am-active">
+                        <form action="{:url('/user/edit')}" method="post" class="am-form">
+                            <div class="am-form-group">
+                                <label >昵称:</label>
+                                <input type="text" class="am-form-field am-input-sm" placeholder="用户昵称..." value="{$userLoginInfo.nickname}" name="nickname">
+                            </div>
+                            <div class="form-group">
+                                <label class="am-radio-inline">
+                                    <input type="radio" name="usersex" value="1">男
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio"  name="usersex"  value="2">女
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio"  name="usersex" value="0" checked>隐藏
+                                </label>
+                            </div>
+                            <div class="form-group am-text-right">
+                                <button type="submit" class="am-btn am-btn-warning am-btn-sm">保存</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div data-tab-panel-1 class="am-tab-panel ">
+                        <form action="{:url('/user/password')}" method="post" class="am-form">
+                            <div class="am-form-group">
+                                <label >原密码:</label>
+                                <input type="password" class="am-form-field am-input-sm" placeholder="请输入原密码..." name="password">
+                            </div>
+                            <div class="am-form-group">
+                                <label >新密码:</label>
+                                <input type="password" class="am-form-field am-input-sm" placeholder="请输入新密码..." name="newpassword">
+                            </div>
+                            <div class="am-form-group">
+                                <label >重复新密码:</label>
+                                <input type="password" class="am-form-field am-input-sm" placeholder="请再次输入原密码..." name="againpassword">
+                            </div>
+                            <div class="form-group am-text-right">
+                                <button type="submit" class="am-btn am-btn-danger am-btn-sm">* 修改密码</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div data-tab-panel-2 class="am-tab-panel ">
+                        <form action="{:url('/user/headimgurl')}" method="post" class="am-form" enctype="multipart/form-data">
+                            <div class="am-form-group am-form-file am-text-center">
+                                <button type="button" class="am-btn am-btn-default am-btn-sm">
+                                    <i class="am-icon-cloud-upload"></i> 选择上传图片</button>
+                                <input type="file" multiple id="doc-form-file" name="headimgurl" required>
+                                <div id="file-list"></div>
+                                <script>
+                                    $(function() {
+                                        $('#doc-form-file').on('change', function() {
+                                            var fileNames = '';
+                                            $.each(this.files, function() {
+                                                fileNames += '<span class="am-badge" style="padding: 10px;margin-top:10px;">' + this.name + '</span> ';
+                                            });
+                                            $('#file-list').html(fileNames);
+                                        });
+                                    });
+                                </script>
+                            </div>
+                            <div class="form-group am-text-right">
+                                <button type="submit" class="am-btn am-btn-warning am-btn-sm">上传头像</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {if condition="$userZhuBoFlag eq 1"}
+    <div class="col-md-12 user-room-content">
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+        <div class="am-u-md-12  am-u-sm-12 ">
+            <h1 class="am-u-md-6">
+                <span class="am-text-warning">{$userLoginInfo.nickname}</span> <span class="am-text-default">的课堂信息</span>
+            </h1>
+        </div>
+        <div class="am-u-md-12">
+            <div class="am-u-md-6 ">
+                <span class="am-text-sm ">直播参数:</span>
+                <hr>
+                <span class="am-text-sm">URL :  </span>
+                <input type="text"  readonly value="__RTMP_URL__" class="am-form-field">
+                <span  class="am-text-sm am-text-danger" onclick="toggleRoomPassword();">流密钥 : <span class="am-icon-eye " ></span></span>
+                <input type="password"  readonly value="{$userRoomInfo.roomPassword}" class="am-form-field" id="roomPassword">
+                <span class="am-block am-text-sm">课堂封面:</span>
+                <img src="__STATIC__/images/room/{$userRoomInfo['bgimgurl']}" alt="" width="300px" class="am-center">
+            </div>
+            <div class="am-u-md-6 ">
+                <span class="am-text-sm ">课堂资料修改:</span>
+                <hr>
+                <div data-am-widget="tabs"
+                     class="am-tabs am-tabs-default">
+                    <ul class="am-tabs-nav am-cf">
+                        <li class="am-active"><a href="[data-tab-panel-0]">课堂信息</a></li>
+                        <li class=""><a href="[data-tab-panel-1]">课堂封面</a></li>
+                    </ul>
+                    <div class="am-tabs-bd">
+                        <div data-tab-panel-0 class="am-tab-panel am-active">
+                            <div class="">
+                                <form action="{:url('/user/room/edit')}"method="post" class="am-form">
+                                    <div class=" am-form-group-sm">
+                                        <label for="" class="am-text-sm">房间名:</label>
+                                        <input type="text" name="name" class="am-input-sm" value="{$userRoomInfo.name}">
+                                    </div>
+                                    <div class=" am-form-group-sm">
+                                        <label for="" class="am-text-sm">通知:</label>
+                                        <textarea  name="notice" class="am-input-sm">{$userRoomInfo.notice}</textarea>
+                                    </div>
+                                    <div class=" am-form-group">
+                                        <label for="" class="am-text-sm">描述:</label>
+                                        <textarea  name="description" class="am-input-sm">{$userRoomInfo.description}</textarea>
+                                    </div>
+                                    <div class=" am-form-group am-text-right">
+                                        <button type="submit" class="am-btn am-btn-warning am-btn-sm">修改</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div data-tab-panel-1 class="am-tab-panel ">
+                            <form action="{:url('/user/room/image')}" method="post" enctype="multipart/form-data">
+                                <div class="am-form-group ">
+                                    <ul>
+                                        <li class="am-text-sm ">上传课堂封面照片</li>
+                                        <li class="am-text-danger am-text-sm ">仅支持jpg/jpeg/png三种格式 ,且图片大小不得超过2M </li>
+                                        <li class=" am-text-sm">建议图片尺寸为:400*300</li>
+                                    </ul>
+                                    <input type="file"  multiple name="roomimage" class="am-form-field am-input-sm">
+                                </div>
+                                <div class="am-text-right am-form-group">
+                                    <button type="submit" class="am-btn am-btn-warning am-btn-sm">修改封面</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 user-room-content">
+        <hr data-am-widget="divider" style="" class="am-divider am-divider-dotted" />
+        <div class="am-u-md-12  am-u-sm-12 ">
+            <h1 class="am-u-md-12">
+                 <span class="am-text-default">直播推流说明</span>
+            </h1>
+            <div class="am-u-md-12">
+                <ul>
+                    <li><a href="https://obsproject.com/" target="_blank">OBS直播软件下载地址</a></li>
+                    <li><a href="http://www.douyu.com/cms/zhibo/201311/13/250.shtml"  target="_blank">OBS使用简易教程</a></li>
+                </ul>
+                <span>
+                    OBS串流设置图示:
+                </span>
+                <div class="am-u-md-12">
+                    <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
+                        <img src="__STATIC__/images/zb_desc.jpg" data-rel="__STATIC__/images/zb_desc.jpg" alt="OBS18.0软件直播设计图示" width="500px" class="am-img-thumbnail"/>
+                        <figcaption class="am-figure-capition-btm">
+                            OBS18.0软件直播设计图示(点击查看大图)
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </div>
+    {else /}
+    <div class="col-md-12 user-room-content">
+        <div class="am-u-md-12  am-u-sm-12" style="padding-left: 30px;padding-right: 30px;">
+            <div class=" " style="border: 1px solid #dfdfdf;padding:15px;box-shadow: 0 0 1px #ccc">
+            <blockquote>
+                <span class="am-text-default am-sans-serif am-block am-text-sm">申请教师认证后可以进行课堂直播</span>
+                <span class="am-text-default am-sans-serif am-text-danger am-block am-text-sm">* 教师认证申请需本人手持身份证正面照片</span>
+                <span class="am-text-default am-sans-serif am-block am-text-sm">提交申请后,我们将尽快联系您</span>
+            </blockquote>
+            {if condition="$userCheckFlag eq 2"}
+                <div class="am-panel">
+                        <span class="am-text-danger am-block am-text-sm">
+                           <em>您已经提交过申请,请耐心等待,我们将尽快处理.</em>
+                        </span>
+                    <span class=" am-text-sm">
+                            <span>提交时间: {$userCheckInfo['update_time']}</span>
+                        </span>
+                </div>
+            {else/}
+                {if condition="$userCheckInfo.status eq 2"}
+                    <div class="am-panel">
+                                <span class="am-text-danger am-block am-text-sm">
+                                   <em>您之前的申请已经被驳回,您可以重新提交申请.</em>
+                                </span>
+                    </div>
+                {/if}
+            <figure data-am-widget="figure" class="am am-figure am-figure-default "   data-am-figure="{  pureview: 'true' }">
+                <img src="__STATIC__/images/teacher/demo.png" data-rel="__STATIC__/images/teacher/demo.png" alt="手持身份证正面照示例" width="100px"/>
+                <figcaption class="am-figure-capition-btm">
+                    手持身份证正面照示例(点击查看大图)
+                </figcaption>
+            </figure>
+            <form action="{:url('/user/zhubo')}" method="post" enctype="multipart/form-data">
+                <div class="am-form-group ">
+                    <label for=""><span class="am-text-sm">上传手持身份证正面照</span> <span class="am-text-danger am-text-sm">( 仅支持jpg/jpeg/png三种格式 ,且图片大小不得大于2M )</span></label>
+                    <input type="file"  multiple name="image" class="am-form-field am-input-sm">
+                </div>
+
+                <button type="submit" class="am-btn am-btn-primary am-btn-sm">申请教师认证</button>
+            </form>
+            {/if}
+        </div>
+        </div>
+    </div>
+    {/if}
+</div>
+<script>
+    function toggleRoomPassword(){
+        var obj=$("#roomPassword");
+        if(obj.attr('type')==='password'){
+            obj.attr('type','text');
+        }else{
+            obj.attr('type','password');
+        }
+    }
+</script>
+{/block}
+{/extend}
