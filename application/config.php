@@ -275,6 +275,6 @@ return [
          * - 注意最后面没有斜线 /
          * - 完整地址如下：/data/wwwroot/default/public/static/images/live
          */
-        'photoPos' => '/data/wwwroot/default/public/static/images/live',//
+        'photoPos' => '/home/wwwroot/phplive/public/static/images/live',//
     ],
 ];

@@ -264,7 +264,7 @@ return [
         '__TITLE__' => '直播课堂', // 更改默认的/Public 替换规则
         '__DESCRIPTION__' => '', //
         '__KEYWORDS__' => '', //
-        '__RTMP_URL__' => 'rtmp://rtmp-postbird/myapp', //RTMP 流应用地址 这里是需要修改的地方
+        '__RTMP_URL__' => 'rtmp://vmphplive.io/myapp', //RTMP 流应用地址 这里是需要修改的地方
     ],
     // +----------------------------------------------------------------------
     // | ffmpeg的配置
@@ -276,6 +276,6 @@ return [
          * - 注意最后面没有斜线 /
          * - 完整地址如下：/data/wwwroot/default/public/static/images/live
          */
-        'photoPos' => '/data/wwwroot/default/public/static/images/live',//
+        'photoPos' =>'/home/wwwroot/phplive/public/static/images/live',//
     ],
 ];
