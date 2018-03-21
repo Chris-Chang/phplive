@@ -263,7 +263,7 @@ return [
         '__TITLE__' => '直播课堂', // 更改默认的/Public 替换规则
         '__DESCRIPTION__' => '', // 更改默认的/Public 替换规则
         '__KEYWORDS__' => '', // 更改默认的/Public 替换规则
-        '__RTMP_URL__' => 'rtmp://rtmp-postbird/myapp', //RTMP 流应用地址 这里是需要修改的地方
+        '__RTMP_URL__' => 'rtmp://vmphplive.io/myapp', //RTMP 流应用地址 这里是需要修改的地方
     ],
     // +----------------------------------------------------------------------
     // | ffmpeg的配置
